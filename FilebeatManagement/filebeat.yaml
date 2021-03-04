@@ -1,0 +1,17 @@
+filebeat.inputs:
+- type: log
+  fields:
+      source: 'sshd logs'
+  fields_under_root: true
+  include_lines: ['Accepted publickey for', 'Accepted password for', 'Disconnected from invalid user', 'Connecc
+tion closed by authenticating', 'Connection closed by invalid user', 'Disconnected from invalid user', 'Disconn
+nected from authenticating user']
+  paths:
+    - /var/log/auth.log
+  processors:
+    - add_tags:
+        tags: ['sshd']
+
+output.logstash:
+  hosts: ["127.0.0.1:5044"]
+
